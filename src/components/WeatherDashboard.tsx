@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { getWeather, getForecast } from '../utils/api';
 import SearchBar from './SearchBar';
-
+import Loader from './Loader';
 const WeatherDashboard = () => {
   const [weatherData, setWeatherData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -57,44 +57,50 @@ const WeatherDashboard = () => {
       </header>
       <main>
         <SearchBar onSearch={handleSearch} />
-        {loading && <p>Loading...</p>}
+        {loading && <Loader />}
         {error && <p>{error}</p>}
         {weatherData && (
-          <div className="p-4">
-            <h2 className="text-2xl font-bold">
-              Weather in {weatherData.name}
+          <div className="p-6-w-sm mx-auto mt-8 w-full max-w-lg items-center justify-center overflow-hidden rounded rounded-lg bg-blue-100 p-4 shadow-xl">
+            <h2 className="mb-2-xl mb-2 text-center text-5xl font-medium uppercase">
+              {weatherData.name}
             </h2>
-            <p>Temperature: {Math.floor(weatherData.main.temp)}°C</p>
-            <p>Weather State: {weatherData.weather[0].description}</p>
+            <p className="text-5xl"> {Math.floor(weatherData.main.temp)}°C</p>
+
+            <div className="flex justify-end px-20">
+              <img
+                src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                alt={weatherData.weather[0].description}
+              />
+              <p className="py-9 text-4xl font-light uppercase">
+                {' '}
+                {weatherData.weather[0].description}
+              </p>
+            </div>
             <p>Humidity: {weatherData.main.humidity}%</p>
-            <img
-              src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-              alt={weatherData.weather[0].description}
-            />
           </div>
         )}
         {forecastData && (
-          <div className="p-4">
-            <h2 className="text-2xl font-bold">Daily Forecast</h2>
+          <div className="mx-auto mt-8 flex w-full max-w-6xl items-center justify-center gap-8 rounded rounded-lg bg-blue-400 py-8 shadow-slate-300">
+            <h2 className="px-8 text-2xl font-bold">Daily Forecast</h2>
             {getUniqueDates(forecastData.list).map((date, index) => {
               const dailyData = forecastData.list.find(
                 (forecast) => formatDate(forecast.dt) === date,
               );
               return (
                 <div key={index} className="mb-4">
-                  <p>Date: {date}</p>
-
-                  <p>
-                    Max Temperature: {Math.floor(dailyData.main.temp_max)}°C
-                  </p>
-                  <p>
-                    Min Temperature: {Math.floor(dailyData.main.temp_min)}°C
-                  </p>
-                  <p>Weather State: {dailyData.weather[0].description}</p>
+                  <p className="justify-center"> {date}</p>
                   <img
                     src={`https://openweathermap.org/img/wn/${dailyData.weather[0].icon}@2x.png`}
                     alt={dailyData.weather[0].description}
                   />
+                  <p className="text-2xl font-light uppercase">
+                    {' '}
+                    {dailyData.weather[0].description}
+                  </p>
+                  <p className="flex gap-2 py-4 uppercase">
+                    H: {Math.floor(dailyData.main.temp_max)}°C
+                    <p> L: {Math.floor(dailyData.main.temp_min)}°C</p>
+                  </p>
                 </div>
               );
             })}
