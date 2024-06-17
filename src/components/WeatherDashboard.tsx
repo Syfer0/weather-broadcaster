@@ -29,7 +29,23 @@ const WeatherDashboard = () => {
     }
     setLoading(false);
   };
-
+  const formatDate = (timestamp) => {
+    return new Date(timestamp * 1000).toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+  const getUniqueDates = (forecasts) => {
+    const uniqueDates = [];
+    forecasts.forEach((forecast) => {
+      const date = formatDate(forecast.dt);
+      if (!uniqueDates.includes(date)) {
+        uniqueDates.push(date);
+      }
+    });
+    return uniqueDates;
+  };
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow">
@@ -59,28 +75,32 @@ const WeatherDashboard = () => {
         )}
         {forecastData && (
           <div className="p-4">
-            <h2 className="text-2xl font-bold">5-Day Forecast</h2>
-            {forecastData.list.map((forecast, index) => (
-              <div key={index} className="mb-4">
-                <p>Date: {new Date(forecast.dt * 1000).toLocaleDateString()}</p>
-                <p>Temperature: {forecast.main.temp}°C</p>
-                <p>Weather State: {forecast.weather[0].description}</p>
-                <img
-                  src={`https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`}
-                  alt={forecast.weather[0].description}
-                />
-              </div>
-            ))}
+            <h2 className="text-2xl font-bold">Daily Forecast</h2>
+            {getUniqueDates(forecastData.list).map((date, index) => {
+              const dailyData = forecastData.list.find(
+                (forecast) => formatDate(forecast.dt) === date,
+              );
+              return (
+                <div key={index} className="mb-4">
+                  <p>Date: {date}</p>
+
+                  <p>
+                    Max Temperature: {Math.floor(dailyData.main.temp_max)}°C
+                  </p>
+                  <p>
+                    Min Temperature: {Math.floor(dailyData.main.temp_min)}°C
+                  </p>
+                  <p>Weather State: {dailyData.weather[0].description}</p>
+                  <img
+                    src={`https://openweathermap.org/img/wn/${dailyData.weather[0].icon}@2x.png`}
+                    alt={dailyData.weather[0].description}
+                  />
+                </div>
+              );
+            })}
           </div>
         )}
       </main>
-      <footer className="bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-          <p className="text-center text-sm text-gray-500">
-            © 2024 Weather Dashboard. All rights reserved.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };
