@@ -7,7 +7,12 @@ const WeatherDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [forecastData, setForecastData] = useState<any>(null);
+
   const handleSearch = async (cityName: string) => {
+    if (cityName === '') {
+      alert('Enter the City Name');
+      return;
+    }
     setLoading(true);
     setError(null);
     setWeatherData(null);
@@ -16,6 +21,7 @@ const WeatherDashboard = () => {
     try {
       const weatherResponse = await getWeather(cityName);
       const forecastResponse = await getForecast(cityName);
+      console.log(forecastResponse.data);
       setWeatherData(weatherResponse.data);
       setForecastData(forecastResponse.data);
     } catch (err) {
@@ -42,21 +48,27 @@ const WeatherDashboard = () => {
             <h2 className="text-2xl font-bold">
               Weather in {weatherData.name}
             </h2>
-            <p>Temperature: {weatherData.main.temp}°C</p>
+            <p>Temperature: {Math.floor(weatherData.main.temp)}°C</p>
             <p>Weather State: {weatherData.weather[0].description}</p>
             <p>Humidity: {weatherData.main.humidity}%</p>
+            <img
+              src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+              alt={weatherData.weather[0].description}
+            />
           </div>
         )}
         {forecastData && (
           <div className="p-4">
             <h2 className="text-2xl font-bold">5-Day Forecast</h2>
-            {/* Map through forecastData.list to display each day's forecast */}
             {forecastData.list.map((forecast, index) => (
-              <div key={index}>
+              <div key={index} className="mb-4">
                 <p>Date: {new Date(forecast.dt * 1000).toLocaleDateString()}</p>
                 <p>Temperature: {forecast.main.temp}°C</p>
                 <p>Weather State: {forecast.weather[0].description}</p>
-                {/* Add more details as needed */}
+                <img
+                  src={`https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`}
+                  alt={forecast.weather[0].description}
+                />
               </div>
             ))}
           </div>
