@@ -1,3 +1,12 @@
 {
-  "favorites": []
+  "favorites": [
+    {
+      "id": "f2b2",
+      "city": "Pune"
+    },
+    {
+      "id": "f1bd",
+      "city": "Pune"
+    }
+  ]
 }
