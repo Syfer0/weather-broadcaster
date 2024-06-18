@@ -1,30 +1,60 @@
-# React + TypeScript + Vite
+# Weather Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Frontend Developer - Assignment RiDiv Technologies
 
-Currently, two official plugins are available:
+## Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A weather dashboard application that shows the current weather and a 5-day forecast for a given city. Users can add cities to their favorites and view weather data for favorite cities. The application uses the OpenWeatherMap API and a JSON server for managing favorite cities.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Search for a city and display current weather and a 5-day forecast.
+- Add and remove cities from favorites.
+- Display weather data for favorite cities.
+- Persist the last searched city using local storage.
+- Toggle between Celsius and Fahrenheit.
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### Prerequisites
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Node.js
+- npm
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/weather-dashboard.git
+   cd weather-dashboard
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the JSON server:
+
+   ```bash
+   npm run json-server
+   ```
+
+4. Run the React app:
+   ```bash
+   npm start
+   ```
+
+## Usage
+
+1. Enter a city name in the search bar to fetch and display weather data.
+2. Add cities to favorites by clicking the "Add to Favorites" button.
+3. Remove cities from favorites by clicking the "Remove" button next to the favorite city.
+4. Use the toggle to switch between Celsius and Fahrenheit.
+
+## Obtaining an API Key
+
+1. Sign up at [OpenWeatherMap](https://home.openweathermap.org/users/sign_up) to get an API key.
+2. Replace `YOUR_API_KEY` in the `src/utils/api.js` file with your OpenWeatherMap API key.
